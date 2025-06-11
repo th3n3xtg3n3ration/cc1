@@ -150,7 +150,8 @@ def reset_password(user=None):
         build_in_command_failed('user')
     chars = string.ascii_letters + string.digits
 
-    random.seed = (os.urandom(1024))
+    # Initialise PRNG properly; assigning to random.seed breaks the module
+    random.seed(os.urandom(1024))
     password = ''.join(random.choice(chars) for unused in range(12))
     p = subprocess.Popen(('openssl', 'passwd', '-1', password), stdout=subprocess.PIPE)
     shadow_password = p.communicate()[0].strip()

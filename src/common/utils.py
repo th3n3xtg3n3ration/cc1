@@ -161,7 +161,9 @@ def password_gen(length, chars=['letters', 'digits', 'special'], extra_chars=Non
     seen = set()
     pool = [x for x in pool if x not in seen and not seen.add(x)]
 
-    random.seed = (os.urandom(1024))
+    # seed() must be called to initialise the PRNG; assigning to the
+    # attribute replaces the function and breaks future calls
+    random.seed(os.urandom(1024))
     return ''.join(random.choice(pool) for i in range(length))
 
 
